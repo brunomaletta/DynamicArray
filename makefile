@@ -1,2 +1,10 @@
-CXX = g++
-CXXFLAGS = -fsanitize=address,undefined -fno-omit-frame-pointer -g -Wall -Wshadow -std=c++17 -Wno-unused-result -Wno-sign-compare -Wno-char-subscripts -fuse-ld=gold
+FLAGS = -std=c++17 -O2
+
+all: sample
+	./sample
+
+sample: sample.cpp
+	g++ -o sample sample.cpp $(FLAGS)
+
+clean:
+	rm -f sample
