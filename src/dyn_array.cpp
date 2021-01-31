@@ -63,7 +63,7 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 	}
 	SIZE_T size(node* x) const { return x ? x->sz : 0; }
 	SIZE_T size() const { return size(root); }
-	void join(node* l, node* r, node*& i) { // assume que l < r
+	void join(node* l, node* r, node*& i) {
 		if (!l or !r) return void(i = l ? l : r);
 		l->prop(), r->prop();
 		if (l->p > r->p) join(l->r, r, l->r), i = l;
@@ -77,13 +77,13 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 	void split(node* i, node*& l, node*& r, SIZE_T idx) {
 		if (!i) return void(r = l = NULL);
 		i->prop();
-		if (size(i->l) + i->val.size() <= idx) { // pega o 'i' e toda a sub-arvore da esquerda
+		if (size(i->l) + i->val.size() <= idx) { // take current and left subtree
 			split(i->r, i->r, r, idx - size(i->l) - i->val.size());
 			l = i;
-		} else if (size(i->l) >= idx) { // vai pra esquerda
+		} else if (size(i->l) >= idx) { // go left
 			split(i->l, l, i->l, idx);
 			r = i;
-		} else { // tem que quebrar esse no e pega a sub-arvore da esquerda toda
+		} else { // take left subtree and split current
 			sms<T, true> L;
 			if (!i->rev) i->val.split(idx - size(i->l), L);
 			else {
@@ -99,7 +99,7 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		}
 		i->update();
 	}
-	void split(SIZE_T k, dyn_array& v) { // pega os 'k' menores
+	void split(SIZE_T k, dyn_array& v) { // take the 'k' smallests
 		v.clear();
 		split(root, v.root, root, std::min(k, size()));
 	}
