@@ -30,6 +30,10 @@ int main() {
 			int l, r;
 			std::cin >> l >> r;
 			v.reverse(l, r);
+		} else if (c == '$') {
+			int l, r;
+			std::cin >> l >> r;
+			std::cout << v.rmq(l, r) << std::endl;
 		}
 	}
 	return 0;

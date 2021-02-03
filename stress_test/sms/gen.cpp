@@ -11,6 +11,10 @@ int main(int argc, char** argv) {
 		if (t == 0) std::cout << "+ ";
 		if (t == 1) std::cout << "- ";
 		if (t == 2) std::cout << "? ";
+		if (t == 3) {
+			std::cout << "$" << std::endl;
+			continue;
+		}
 		std::cout << rand()%LIM << std::endl;
 	}
 	exit(0);

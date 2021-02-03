@@ -16,9 +16,11 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		SIZE_T sz;
 		bool rev, rev_lazy;
 		sms<T, true, SIZE_T> val;
+		T mi;
 		node(sms<T, true, SIZE_T>& v) : l(NULL), r(NULL),
 				p(dyn_array_rng()), sz(1), rev(0), rev_lazy(0) {
 			swap(val, v);
+			mi = val.min();
 		}
 		void prop() {
 			if (rev_lazy) {
@@ -31,8 +33,9 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		}
 		void update() {
 			sz = val.size();
-			if (l) sz += l->sz;
-			if (r) sz += r->sz;
+			mi = val.min();
+			if (l) sz += l->sz, mi = std::min(mi, l->mi);
+			if (r) sz += r->sz, mi = std::min(mi, r->mi);
 		}
 	};
 
@@ -155,5 +158,16 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		L.concat(M);
 		L.concat(*this);
 		swap(*this, L);
+	}
+	T min() { return root->mi; }
+	T rmq(int l, int r) {
+		dyn_array L, M;
+		split(r+1, M);
+		M.split(l, L);
+		T ans = M.min();
+		L.concat(M);
+		L.concat(*this);
+		swap(*this, L);
+		return ans;
 	}
 };

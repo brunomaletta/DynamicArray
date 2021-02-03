@@ -9,11 +9,14 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 	struct node {
 		node *l, *r;
 		SIZE_T cnt;
-		node() : l(NULL), r(NULL), cnt(0) {}
+		T mi;
+		node() : l(NULL), r(NULL), cnt(0),
+				mi(std::numeric_limits<T>::max()) {}
 		void update() {
 			cnt = 0;
-			if (l) cnt += l->cnt;
-			if (r) cnt += r->cnt;
+			mi = std::numeric_limits<T>::max();
+			if (l) cnt += l->cnt, mi = std::min(mi, l->mi);
+			if (r) cnt += r->cnt, mi = std::min(mi, r->mi);
 		}
 	};
 
@@ -63,6 +66,7 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 		if (!at) at = new node();
 		if (l == r) {
 			at->cnt += qt;
+			at->mi = l;
 			if (!MULTI) at->cnt = 1;
 			return at;
 		}
@@ -144,7 +148,7 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 	node* split(node*& x, SIZE_T k) {
 		if (k <= 0 or !x) return NULL;
 		node* ret = new node();
-		if (!x->l and !x->r) x->cnt -= k, ret->cnt += k;
+		if (!x->l and !x->r) x->cnt -= k, ret->cnt += k, ret->mi = x->mi;
 		else {
 			if (k <= count(x->l)) ret->l = split(x->l, k);
 			else {
@@ -163,4 +167,6 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 	}
 	// take the elements smaller than 'k'
 	void split_val(T k, sms& s) { split(order_of_key(k), s); }
+	// get minimum
+	T min() { return root->mi; };
 };

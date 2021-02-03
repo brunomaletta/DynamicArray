@@ -13,7 +13,7 @@ int main() {
 			int x;
 			std::cin >> x;
 			s.insert(x);
-		} else if (c == '+') {
+		} else if (c == '-') {
 			int x;
 			std::cin >> x;
 			s.erase(x);
@@ -22,6 +22,9 @@ int main() {
 			std::cin >> x;
 			if (s.count(x)) std::cout << 1 << std::endl;
 			else std::cout << 0 << std::endl;
+		} else if (c == '$') {
+			if (!s.size()) std::cout << -1 << std::endl;
+			else std::cout << s.min() << std::endl;
 		}
 	}
 	return 0;
