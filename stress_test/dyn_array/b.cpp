@@ -34,9 +34,7 @@ int main() {
 		} else if (c == '$') {
 			int l, r;
 			std::cin >> l >> r;
-			int ans = v[l];
-			for (int i = l; i <= r; i++) ans = std::min(ans, v[i]);
-			std::cout << ans << std::endl;
+			std::cout << *std::min_element(v.begin()+l, v.begin()+r+1) << std::endl;
 		}
 	}
 	return 0;

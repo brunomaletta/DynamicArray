@@ -129,7 +129,7 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 
 	node* merge(node* l, node* r) {
 		if (!l or !r) return l ? l : r;
-		if (!l->l and !l->r) { // folha
+		if (!l->l and !l->r) { // leaf
 			if (MULTI) l->cnt += r->cnt;
 			delete r;
 			return l;
@@ -138,7 +138,7 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 		l->update(), delete r;
 		return l;
 	}
-	void merge(sms& s) { // mergeia dois sets
+	void merge(sms& s) { // merge two sets
 		if (N > s.N) swap(*this, s);
 		expand(s.N);
 		root = merge(root, s.root);
