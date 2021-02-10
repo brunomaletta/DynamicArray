@@ -29,8 +29,6 @@ It is also possible, through the second template parameter, to specift the type 
 
 ## Simple operations
 
-Some simple operations work very similar to `std::vector`
-
 ### swap
 
 Swaps the contents of two Dynamic Arrays.
@@ -98,7 +96,7 @@ Access a given index of the array.
 **This doesn't allow for changing the value. If the index is not in the range `[0, size())`, the behaviour is undefined.**
 
 ```c++
-const T operator[](SIZE_T);
+const T dyn_array::operator[](SIZE_T);
 
 // Example:
 dyn_array<int> a = {3, 1, 2};
@@ -114,7 +112,7 @@ Changes the value at a given index of the array.
 **If the index is not in the range `[0, size())`, the behaviour is undefined.**
 
 ```c++
-void update(SIZE_T, T);
+void dyn_array::update(SIZE_T, T);
 
 // Example:
 dyn_array<int> a = {3, 1, 2};
@@ -131,7 +129,7 @@ Returns the minimum value of the array.
 **If the array is empty, the behaviour is undefined.**
 
 ```c++
-T min();
+T dyn_array::min();
 
 // Example:
 dyn_array<int> a = {3, 1, 2};
@@ -147,7 +145,7 @@ int mi = a.min(); // mi = 1
 Splits at a given index. The given Dynamic Array gets cleared, and after the operation it will contain the indices smaller than the given index. The remaining elements stay in the original array.
 
 ```c++
-void split(SIZE_T, dyn_array&);
+void dyn_array::split(SIZE_T, dyn_array&);
 
 // Example:
 dyn_array<int> a = {3, 1, 2, 5, 6, 2}, b;
@@ -161,7 +159,7 @@ a.split(3, b); // b = {3, 1, 2} and a = {5, 6, 2}
 Concatenates two arrays. The given array gets cleared, and the original array is extended to contain the elements of the given array.
 
 ```c++
-void concat(dyn_array&);
+void dyn_array::concat(dyn_array&);
 
 // Example:
 dyn_array<int> a = {3, 1, 2}, b = {5, 6, 2};
@@ -177,7 +175,7 @@ Reverses the given sub-array.
 **If the first index is greater than the second index, the behaviour is undefined.**
 
 ```c++
-void reverse(SIZE_T, SIZE_T);
+void dyn_array::reverse(SIZE_T, SIZE_T);
 
 // Example:
 dyn_array<int> a = {3, 1, 2, 5, 6, 2};
@@ -189,7 +187,7 @@ a.reverse(1, 3); // a = {3, 5, 2, 1, 6, 2}
 If the range is not specified, the entire array gets reversed.
 
 ```c++
-void reverse();
+void dyn_array::reverse();
 
 // Example:
 dyn_array<int> a = {3, 1, 2, 5, 6, 2};
@@ -205,7 +203,7 @@ Sorts the given sub-array, in non-decreasing order. If the last parameter is pas
 **If the first index is greater than the second index, the behaviour is undefined.**
 
 ```c++
-void sort(SIZE_T, SIZE_T, bool = false);
+void dyn_array::sort(SIZE_T, SIZE_T, bool = false);
 
 // Example:
 dyn_array<int> a = {3, 1, 2, 5, 6, 2};
@@ -218,7 +216,7 @@ a.sort(2, 5, true); // a = {1, 2, 6, 5, 3, 2}
 If the range is not specified, the entire array gets sorted, in non-decreasing order. If the last parameter is passed as `true`, the array is sorted in non-increasing order.
 
 ```c++
-void sort(bool = false);
+void dyn_array::sort(bool = false);
 
 // Example:
 dyn_array<int> a = {3, 1, 2, 5, 6, 2};
@@ -234,7 +232,7 @@ Returns the minimum over the values of the given sub-array.
 **If the first index is greater than the second index, the behaviour is undefined.**
 
 ```c++
-T rmq(SIZE_T, SIZE_T);
+T dyn_array::rmq(SIZE_T, SIZE_T);
 
 // Example:
 dyn_array<int> a = {3, 1, 2, 5, 6, 2};
