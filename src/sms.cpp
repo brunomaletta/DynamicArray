@@ -1,11 +1,14 @@
 #pragma once
 
 #include <vector>
+#include <type_traits>
 
 // DS to store a set/multiset of non-negative integer keys
 // Supports split and merge at cost O(log(N)) amortized,
 // where N = largest element in the set
 template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
+	static_assert(std::is_integral<T>::value, "Not an integral type");
+	static_assert(std::is_integral<SIZE_T>::value, "Not an integral type");
 	struct node {
 		node *l, *r;
 		SIZE_T cnt;

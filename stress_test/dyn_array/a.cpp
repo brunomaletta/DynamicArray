@@ -34,6 +34,10 @@ int main() {
 			int l, r;
 			std::cin >> l >> r;
 			std::cout << v.rmq(l, r) << std::endl;
+		} else if (c == '=') {
+			int idx, x;
+			std::cin >> idx >> x;
+			v.update(idx, x);
 		}
 	}
 	return 0;

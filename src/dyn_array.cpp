@@ -3,6 +3,7 @@
 #include <vector>
 #include <chrono>
 #include <random>
+#include <type_traits>
 
 #include "sms.cpp"
 
@@ -10,6 +11,8 @@ std::mt19937 dyn_array_rng((int) std::chrono::steady_clock::now().time_since_epo
 
 // Dynamic Array
 template<typename T, typename SIZE_T = int> struct dyn_array {
+	static_assert(std::is_integral<T>::value, "Not an integral type");
+	static_assert(std::is_integral<SIZE_T>::value, "Not an integral type");
 	struct node {
 		node *l, *r;
 		int p;
@@ -43,7 +46,7 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 
 	dyn_array() { root = NULL; }
 	dyn_array(const dyn_array& v) : root(NULL) {
-		for (int i = 0; i < v.size(); i++)
+		for (SIZE_T i = 0; i < v.size(); i++)
 			push_back(v[i]);
 	}
 	dyn_array(std::initializer_list<T> v) : dyn_array() { for (T i : v) push_back(i); }
@@ -87,7 +90,7 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 			split(i->l, l, i->l, idx);
 			r = i;
 		} else { // take left subtree and split current
-			sms<T, true> L;
+			sms<T, true, SIZE_T> L;
 			if (!i->rev) i->val.split(idx - size(i->l), L);
 			else {
 				i->val.split(i->val.size() - (idx - size(i->l)), L);
@@ -107,7 +110,7 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		split(root, v.root, root, std::min(k, size()));
 	}
 	void push_back(T val, SIZE_T qt = 1) {
-		sms<T, true> v;
+		sms<T, true, SIZE_T> v;
 		v.insert(val, qt);
 		node* i = new node(v);
 		join(root, i, root);
@@ -123,6 +126,15 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		return i->val[i->val.size() - 1 - (idx - size(i->l))];
 	}
 	const T operator[](SIZE_T i) const { return get(root, i); }
+	
+	void update(SIZE_T idx, T val) {
+		dyn_array L, M;
+		split(idx+1, M);
+		M.split(idx, L);
+		L.push_back(val);
+		L.concat(*this);
+		swap(*this, L);
+	}
 
 	void merge(node*& i, sms<T, true, SIZE_T>& v) {
 		if (!i) return;
@@ -140,7 +152,7 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		root->rev = reverse;
 		root->update();
 	}
-	void sort(int l, int r, bool reverse = false) {
+	void sort(SIZE_T l, SIZE_T r, bool reverse = false) {
 		dyn_array L, M;
 		split(r+1, M);
 		M.split(l, L);
@@ -150,7 +162,7 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		swap(*this, L);
 	}
 	void reverse() { if (root) root->rev_lazy ^= 1; }
-	void reverse(int l, int r) {
+	void reverse(SIZE_T l, SIZE_T r) {
 		dyn_array L, M;
 		split(r+1, M);
 		M.split(l, L);
@@ -160,7 +172,7 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		swap(*this, L);
 	}
 	T min() { return root->mi; }
-	T rmq(int l, int r) {
+	T rmq(SIZE_T l, SIZE_T r) {
 		dyn_array L, M;
 		split(r+1, M);
 		M.split(l, L);

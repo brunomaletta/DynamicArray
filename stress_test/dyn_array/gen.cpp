@@ -9,7 +9,7 @@ int main(int argc, char** argv) {
 	for (int i = 0; i < n; i++) std::cout << rand()%LIM << " ";
 	std::cout << std::endl;
 	while (q--) {
-		int t = rand()%5;
+		int t = rand()%6;
 		if (t == 0) {
 			std::cout << "? " << rand()%n << std::endl;
 			continue;
@@ -18,6 +18,11 @@ int main(int argc, char** argv) {
 		if (t == 2) std::cout << "> ";
 		if (t == 3) std::cout << "~ ";
 		if (t == 4) std::cout << "$ ";
+		if (t == 5) {
+			std::cout << "= " << rand()%n << " ";
+			std::cout << rand()%LIM << std::endl;
+			continue;
+		}
 		int l = rand()%n, r = rand()%n;
 		if (l > r) std::swap(l, r);
 		std::cout << l << " " << r << std::endl;

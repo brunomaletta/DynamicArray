@@ -35,6 +35,10 @@ int main() {
 			int l, r;
 			std::cin >> l >> r;
 			std::cout << *std::min_element(v.begin()+l, v.begin()+r+1) << std::endl;
+		} else if (c == '=') {
+			int idx, x;
+			std::cin >> idx >> x;
+			v[idx] = x;
 		}
 	}
 	return 0;
