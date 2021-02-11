@@ -1,7 +1,7 @@
 #include <iostream>
 #include <chrono>
 
-#include "../../src/sms.cpp"
+#include "../src/sms.cpp"
 
 std::chrono::time_point<std::chrono::high_resolution_clock> beg;
 

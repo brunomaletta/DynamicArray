@@ -25,7 +25,7 @@ dyn_array<int> a = {3, 1, 2};
 
 Note that the data structure **only works with integral types**, such as `int`, `char`, `long long`, `unsigned short`, etc.
 
-It is also possible, through the second template parameter, to specift the type to use to store the size of the arra. This is useful to save memory or to represent very large arrays (with size greater than 2^31 - 1).
+It is also possible, through the second template parameter, to specify the type to use to store the size of the array. This is useful to save memory or to represent very large arrays (with size greater than 2^31 - 1).
 
 ## Simple operations
 
