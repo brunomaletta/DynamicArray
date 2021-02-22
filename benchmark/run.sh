@@ -17,9 +17,11 @@ for ((i = 7; i <= 12; i++)) do
 		> output
 		# average across 10 runs
 		for ((j = 1; j <= 10; j++)) do
-			./$file $j < input >> output
+			mem=$( (/usr/bin/time -f "%M" ./$file $j < input >> output) 2>&1)
+			echo "$(($mem/1024))" >> output
 		done
-		./average < output
+		./average 10 < output
+		echo ""
 	done
 done
 make clean
