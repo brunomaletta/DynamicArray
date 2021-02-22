@@ -41,7 +41,7 @@ dyn_array<int> a, b;
 swap(a, b);
 ```
 
-**Complexity**: O(1)
+**Complexity**: `O(1)`
 
 ### size
 
@@ -55,7 +55,7 @@ dyn_array<int> a = {3, 1, 2};
 int sz = a.size(); // sz = 3
 ```
 
-**Complexity**: O(1)
+**Complexity**: `O(1)`
 
 ### clear
 
@@ -69,8 +69,7 @@ dyn_array<int> a;
 a.clear();
 ```
 
-**Complexity**: O(n log(N)) 
-TODO: improve to O(n)
+**Complexity**: `O(n)` 
 
 ### push_back
 
@@ -87,7 +86,7 @@ a.push_back(2); // now a = {2}
 a.push_back(5, 3); // now a = {2, 3, 3, 3}
 ```
 
-**Complexity**: O(log(n) + log(N))
+**Complexity**: `O(log(n) + log(N))`
 
 ### [] operator
 
@@ -103,7 +102,7 @@ dyn_array<int> a = {3, 1, 2};
 int val = a[0]; // val = 3
 ```
 
-**Complexity**: O(log(n) + log(N))
+**Complexity**: `O(log(n) + log(N))`
 
 ### update
 
@@ -120,7 +119,7 @@ a.update(1, 5);
 int val = a[1]; // val = 5
 ```
 
-**Complexity**: O(log(n) + log(N))
+**Complexity**: `O(log(n) + log(N))`
 
 ### min
 
@@ -136,7 +135,7 @@ dyn_array<int> a = {3, 1, 2};
 int mi = a.min(); // mi = 1
 ```
 
-**Complexity**: O(1)
+**Complexity**: `O(1)`
 
 ## Range operations
 
@@ -152,7 +151,7 @@ dyn_array<int> a = {3, 1, 2, 5, 6, 2}, b;
 a.split(3, b); // b = {3, 1, 2} and a = {5, 6, 2}
 ```
 
-**Complexity**: O(log(n) + log(N))
+**Complexity**: `O(log(n) + log(N))`
 
 ### concat
 
@@ -166,7 +165,7 @@ dyn_array<int> a = {3, 1, 2}, b = {5, 6, 2};
 a.concat(b); // a = {3, 1, 2, 5, 6, 2} and b = {}
 ```
 
-**Complexity**: O(log(n) + log(N))
+**Complexity**: `O(log(n) + log(N))`
 
 ### reverse
 
@@ -182,7 +181,7 @@ dyn_array<int> a = {3, 1, 2, 5, 6, 2};
 a.reverse(1, 3); // a = {3, 5, 2, 1, 6, 2}
 ```
 
-**Complexity**: O(log(n) + log(N))
+**Complexity**: `O(log(n) + log(N))`
 
 If the range is not specified, the entire array gets reversed.
 
@@ -194,7 +193,7 @@ dyn_array<int> a = {3, 1, 2, 5, 6, 2};
 a.reverse(); // a = {2, 6, 5, 2, 1, 3}
 ```
 
-**Complexity**: O(1)
+**Complexity**: `O(1)`
 
 ### sort
 
@@ -211,7 +210,7 @@ a.sort(0, 3); // a = {1, 2, 3, 5, 6, 2}
 a.sort(2, 5, true); // a = {1, 2, 6, 5, 3, 2}
 ```
 
-**Complexity**: O(log(n) + log(N)) **amortized**
+**Complexity**: `O(log(n) + log(N))` **amortized**
 
 If the range is not specified, the entire array gets sorted, in non-decreasing order. If the last parameter is passed as `true`, the array is sorted in non-increasing order.
 
@@ -223,7 +222,7 @@ dyn_array<int> a = {3, 1, 2, 5, 6, 2};
 a.sort(); // a = {1, 2, 2, 3, 5, 6}
 ```
 
-**Complexity**: O(log(n) + log(N)) **amortized**
+**Complexity**: `O(log(n) + log(N))` **amortized**
 
 ### rmq
 
@@ -239,4 +238,8 @@ dyn_array<int> a = {3, 1, 2, 5, 6, 2};
 int mi = a.rmq(0, 3); // mi = 1
 ```
 
-**Complexity**: O(log(n) + log(N))
+**Complexity**: `O(log(n) + log(N))`
+
+## Memory Consumption
+
+At any point, a Dynamic Array of size `n` uses `O(n)` memory.

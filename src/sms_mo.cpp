@@ -6,7 +6,7 @@
 // DS to store a set/multiset of non-negative integer keys
 // Supports split and merge at cost O(log(N)) amortized,
 // where N = largest element in the set
-// Uses memory linear on the number of operations
+// Uses memory linear on the number of distinct elements
 template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms_mo {
 	static_assert(std::is_integral<T>::value, "Not an integral type");
 	static_assert(std::is_integral<SIZE_T>::value, "Not an integral type");
@@ -21,7 +21,17 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms_mo {
 		node(node* x) : cnt(x->cnt), d(x->d), v(x->v), mi(x->mi) {
 			ch[0] = x->ch[0], ch[1] = x->ch[1];
 		}
-		void update() { // TODO: remove children with degree 1
+		void update() {
+			if (!ch[0] ^ !ch[1]) { // remove current if degree is 1
+				for (int i = 0; i < 2; i++) if (ch[i]) {
+					node* tmp = ch[i];
+					ch[0] = tmp->ch[0], ch[1] = tmp->ch[1];
+					d = tmp->d, v = tmp->v;
+					cnt = tmp->cnt, mi = tmp->mi;
+					delete tmp;
+					return;
+				}
+			}
 			cnt = 0;
 			mi = std::numeric_limits<T>::max();
 			for (int i = 0; i < 2; i++) if (ch[i]) {
@@ -68,10 +78,6 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms_mo {
 	void expand(T v) { while (v>>n) n++, N = 2*N+1; }
 
 	char msb(T v, char l, char r) { // msb in range (l, r]
-
-		//int ans = __builtin_clz(T(1)) - __builtin_clz(v & ((T(1)<<(r+1))-1));
-		//return ans <= l ? -1 : ans;
-
 		for (char i = r; i > l; i--) if (v>>i&1) return i;
 		return -1;
 	}
