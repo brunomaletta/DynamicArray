@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "../../src/sms_mo.cpp"
 #include "../../src/dyn_array.cpp"
 
 int main() {

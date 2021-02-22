@@ -10,7 +10,8 @@
 std::mt19937 dyn_array_rng((int) std::chrono::steady_clock::now().time_since_epoch().count());
 
 // Dynamic Array
-template<typename T, typename SIZE_T = int> struct dyn_array {
+template<typename T, typename SIZE_T = int, typename SET = sms_mo<T, true, SIZE_T>>
+struct dyn_array {
 	static_assert(std::is_integral<T>::value, "Not an integral type");
 	static_assert(std::is_integral<SIZE_T>::value, "Not an integral type");
 	struct node {
@@ -18,9 +19,9 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		int p;
 		SIZE_T sz;
 		bool rev, rev_lazy;
-		sms<T, true, SIZE_T> val;
+		SET val;
 		T mi;
-		node(sms<T, true, SIZE_T>& v) : l(NULL), r(NULL),
+		node(SET& v) : l(NULL), r(NULL),
 				p(dyn_array_rng()), sz(1), rev(0), rev_lazy(0) {
 			swap(val, v);
 			mi = val.min();
@@ -64,7 +65,7 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		std::swap(a.root, b.root);
 	}
 	void clear() {
-		dyn_array<T> tmp;
+		dyn_array tmp;
 		swap(tmp, *this);
 	}
 	SIZE_T size(node* x) const { return x ? x->sz : 0; }
@@ -90,7 +91,7 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 			split(i->l, l, i->l, idx);
 			r = i;
 		} else { // take left subtree and split current
-			sms<T, true, SIZE_T> L;
+			SET L;
 			if (!i->rev) i->val.split(idx - size(i->l), L);
 			else {
 				i->val.split(i->val.size() - (idx - size(i->l)), L);
@@ -110,7 +111,7 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		split(root, v.root, root, std::min(k, size()));
 	}
 	void push_back(T val, SIZE_T qt = 1) {
-		sms<T, true, SIZE_T> v;
+		SET v;
 		v.insert(val, qt);
 		node* i = new node(v);
 		join(root, i, root);
@@ -136,7 +137,7 @@ template<typename T, typename SIZE_T = int> struct dyn_array {
 		swap(*this, L);
 	}
 
-	void merge(node*& i, sms<T, true, SIZE_T>& v) {
+	void merge(node*& i, SET& v) {
 		if (!i) return;
 		i->prop();
 		merge(i->l, v), merge(i->r, v);

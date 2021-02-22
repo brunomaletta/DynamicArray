@@ -12,7 +12,7 @@ for ((i = 7; i <= 12; i++)) do
 	# number of operations
 	echo 1000000 >> input
 
-	for file in sms set treap splay
+	for file in sms sms_mo set treap splay
 	do
 		> output
 		# average across 10 runs
