@@ -1,10 +1,11 @@
-for ((i = 15; i <= 20; i++)) do
+for ((i = 8; i <= 10; i++)) do
 
 	# maximum value stored in the sets
 	let val=1
 	for ((k = 1; k <= $i; k++)) do
 		let val=2*val
 	done
+	let val=val*val
 
 	echo =========== $val ===========
 

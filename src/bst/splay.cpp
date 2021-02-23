@@ -38,6 +38,9 @@ template<typename T> struct splaytree {
 		}
 	}
 
+	friend void swap(splaytree& a, splaytree& b) {
+		std::swap(a.root, b.root);
+	}
 	void rotate(node* x) {
 		node *p = x->p, *pp = p->p;
 		if (pp) pp->ch[pp->ch[1] == p] = x;

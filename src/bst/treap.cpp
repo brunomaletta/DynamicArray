@@ -33,6 +33,9 @@ template<typename T> struct treap {
 		}
 	}
 
+	friend void swap(treap& a, treap& b) {
+		std::swap(a.root, b.root);
+	}
 	int size(node* x) { return x ? x->sz : 0; }
 	int size() { return size(root); }
 	void join(node* l, node* r, node*& i) { // assume que l < r

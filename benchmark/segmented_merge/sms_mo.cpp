@@ -17,24 +17,31 @@ double get_time() {
 }
 
 int main() {
-	int n;
-	std::cin >> n;
+	int k;
+	std::cin >> k;
+
+	k = 1<<k;
 
 	std::vector<int> w = {0};
-	if (n) for (int x = 1<<(n-1); x; x /= 2) {
+	for (int x = k/2; x; x /= 2) {
 		int sz = w.size();
 		for (int i = 0; i < sz; i++) w.push_back(w[i] + x);
 	}
 
-	std::vector<sms_mo<int>> v(1<<n, sms_mo<int>((1<<n)-1));
+	std::vector<sms_mo<int>> v(k, sms_mo<int>(k*k-1));
 
 	reset_time();
 
-	for (int i = 0; i < (1<<n); i++) v[i].insert(w[i]);
+	for (int i = 0; i < k; i++) for (int j = 0; j < k; j++) v[i].insert(k*i + j);
 
-	for (int d = 1; d < (1<<n); d *= 2)
-		for (int i = 0; i + d < (1<<n); i += 2*d)
-			v[i].merge(v[i + d]);
+	for (int it = 0; it < k; it++) {
+		for (int d = 1; d < k; d *= 2)
+			for (int i = 0; i + d < k; i += 2*d)
+				v[w[i]].merge(v[w[i + d]]);
+
+		swap(v[0], v[k-1]);
+		for (int i = 0; i < k-1; i++) v[k-1].split_val(k*i + k, v[i]);
+	}
 
 	double time = get_time();
 
