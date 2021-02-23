@@ -1,7 +1,8 @@
 #include <iostream>
 #include <chrono>
+#include <vector>
 
-#include "../src/sms.cpp"
+#include "../../src/sms.cpp"
 
 std::chrono::time_point<std::chrono::high_resolution_clock> beg;
 
@@ -15,6 +16,8 @@ double get_time() {
 	return elapsed.count();
 }
 
+const int NUM = 100;
+
 int main(int argc, char** argv) {
 	srand(atoi(argv[1]));
 
@@ -25,16 +28,25 @@ int main(int argc, char** argv) {
 
 	int sum = 0;
 
-	sms<long long> s(MAX);
+	std::vector<sms<long long>> v(NUM, sms<long long>(MAX));
 
 	reset_time();
 
 	for (int i = 0; i < n; i++) {
-		int op = rand()%3;
-		long long a = (rand()*(long long)rand())%MAX;
-		if (op == 0) s.insert(a);
-		else if (op == 1) s.erase(a);
-		else sum += s.count(a);
+		if (rand() % NUM) {
+			int op = rand()%3;
+			int idx = rand()%NUM;
+			long long a = (rand()*(long long)rand())%MAX;
+			if (op == 0) v[idx].insert(a);
+			else if (op == 1) v[idx].erase(a);
+			else sum += v[idx].count(a);
+		} else {
+			int a = rand()%NUM, b = rand()%NUM;
+			int qt = rand()%(v[a].size()+1);
+			sms<long long> tmp;
+			v[a].split(qt, tmp);
+			v[b].merge(tmp);
+		}
 	}
 
 	double time = get_time();

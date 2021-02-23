@@ -1,7 +1,7 @@
 #include <iostream>
 #include <chrono>
 
-#include "../src/sms_mo.cpp"
+#include "../../src/sms.cpp"
 
 std::chrono::time_point<std::chrono::high_resolution_clock> beg;
 
@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
 
 	int sum = 0;
 
-	sms_mo<long long> s(MAX);
+	sms<long long> s(MAX);
 
 	reset_time();
 
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 
 	double time = get_time();
 
-	std::cout << "sms_mo" << std::endl;
+	std::cout << "sms" << std::endl;
 	std::cout << sum << std::endl;
 	std::cout << int(1000*time) << std::endl;
 
