@@ -18,8 +18,10 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms_mo {
 		node(int d_, T v_, SIZE_T cnt_) : cnt(cnt_), d(d_), v(v_), mi(v) {
 			ch[0] = ch[1] = NULL;
 		}
-		node(node* x) : cnt(x->cnt), d(x->d), v(x->v), mi(x->mi) {
-			ch[0] = x->ch[0], ch[1] = x->ch[1];
+		node(node* x, bool b=true) :
+				cnt(x->cnt), d(x->d), v(x->v), mi(x->mi) {
+			if (b) ch[0] = x->ch[0], ch[1] = x->ch[1];
+			else ch[0] = ch[1] = NULL;
 		}
 		void update() {
 			if (!ch[0] ^ !ch[1]) { // remove current if degree is 1
@@ -48,11 +50,15 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms_mo {
 	sms_mo() : root(NULL), N(0), n(0) {}
 	sms_mo(T v) : sms_mo() { while (v>>n) n++, N = 2*N+1; }
 	sms_mo(const sms_mo& t) : root(NULL), N(t.N), n(t.n) {
-		for (SIZE_T i = 0; i < t.size(); i++) {
-			T at = t[i];
-			SIZE_T qt = t.count(at);
-			insert(at, qt);
-			i += qt-1;
+		if (!t.root) return;
+		root = new node(t.root, false);
+		std::vector<std::pair<node*, node*>> q = {{root, t.root}};
+		while (q.size()) {
+			auto [x, y] = q.back(); q.pop_back();
+			for (int i = 0; i < 2; i++) if (y->ch[i]) {
+				x->ch[i] = new node(y->ch[i], false);
+				q.emplace_back(x->ch[i], y->ch[i]);
+			}
 		}
 	}
 	sms_mo(std::initializer_list<T> v) : sms_mo() { for (T i : v) insert(i); }
@@ -68,6 +74,11 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms_mo {
 
 	friend void swap(sms_mo& a, sms_mo& b) {
 		std::swap(a.root, b.root), std::swap(a.N, b.N), std::swap(a.n, b.n);
+	}
+	sms_mo& operator =(const sms_mo& v) {
+		sms_mo tmp = v;
+		swap(tmp, *this);
+		return *this;
 	}
 	SIZE_T size() const { return root ? root->cnt : 0; }
 	SIZE_T count(node* x) const { return x ? x->cnt : 0; }

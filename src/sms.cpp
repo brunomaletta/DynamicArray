@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <type_traits>
+#include <utility>
 
 // DS to store a set/multiset of non-negative integer keys
 // Supports split and merge at cost O(log(N)) amortized,
@@ -15,6 +16,7 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 		T mi;
 		node() : l(NULL), r(NULL), cnt(0),
 				mi(std::numeric_limits<T>::max()) {}
+		node(node* x) : l(NULL), r(NULL), cnt(x->cnt), mi(x->mi) {}
 		void update() {
 			cnt = 0;
 			mi = std::numeric_limits<T>::max();
@@ -29,11 +31,19 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 	sms() : root(NULL), N(0) {}
 	sms(T v) : sms() { while (v >= N) N = 2*N+1; }
 	sms(const sms& t) : root(NULL), N(t.N) {
-		for (SIZE_T i = 0; i < t.size(); i++) {
-			T at = t[i];
-			SIZE_T qt = t.count(at);
-			insert(at, qt);
-			i += qt-1;
+		if (!t.root) return;
+		root = new node(t.root);
+		std::vector<std::pair<node*, node*>> q = {{root, t.root}};
+		while (q.size()) {
+			auto [x, y] = q.back(); q.pop_back();
+			if (y->l) {
+				x->l = new node(y->l);
+				q.emplace_back(x->l, y->l);
+			}
+			if (y->r) {
+				x->r = new node(y->r);
+				q.emplace_back(x->r, y->r);
+			}
 		}
 	}
 	sms(std::initializer_list<T> v) : sms() { for (T i : v) insert(i); }
@@ -49,6 +59,11 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 
 	friend void swap(sms& a, sms& b) {
 		std::swap(a.root, b.root), std::swap(a.N, b.N);
+	}
+	sms& operator =(const sms& v) {
+		sms tmp = v;
+		swap(tmp, *this);
+		return *this;
 	}
 	SIZE_T size() const { return root ? root->cnt : 0; }
 	SIZE_T count(node* x) const { return x ? x->cnt : 0; }

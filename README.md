@@ -2,7 +2,7 @@
 
 Data structure to represent a dynamic array of non-negative integer numbers.
 
-To use the data structure, it is necessary to copy both the codes from the `src/sms.cpp` and `src/dyn_array.cpp`.
+To use the data structure, it is necessary to copy both the codes from the `src/sms_mo.cpp` and `src/dyn_array.cpp`.
 
 The complexity analysis will assume that the size of the array is `n` and the largest value of the array is `N`.
 
@@ -239,6 +239,10 @@ int mi = a.rmq(0, 3); // mi = 1
 ```
 
 **Complexity**: `O(log(n) + log(N))`
+
+## Copying
+
+Copying the array costs time linear in the size of the array.
 
 ## Memory Consumption
 
