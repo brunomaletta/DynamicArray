@@ -1,6 +1,6 @@
 FLAGS = -std=c++17 -O2
 
-all: average sms sms_mo treap
+all: average sms sms_mo treap splay
 	bash ./run.sh
 
 average: average.cpp
@@ -14,6 +14,9 @@ sms_mo: sms_mo.cpp
 	
 treap: treap.cpp
 	g++ -o treap treap.cpp $(FLAGS)
+	
+splay: splay.cpp
+	g++ -o splay splay.cpp $(FLAGS)
 
 clean:
-	rm -f input output average sms sms_mo treap
+	rm -f input output average sms sms_mo treap splay

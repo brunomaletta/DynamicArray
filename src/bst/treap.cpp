@@ -77,9 +77,9 @@ template<typename T> struct treap {
 		M = NULL;
 		join(L, R, root);
 	}
-	void split(int idx, treap& t) {
+	void split(T v, treap& t) {
 		node *L, *R;
-		index_split(root, L, R, idx);
+		split(root, L, R, v);
 		t.root = L;
 		root = R;
 	}

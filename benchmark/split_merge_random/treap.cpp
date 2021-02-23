@@ -42,9 +42,9 @@ int main(int argc, char** argv) {
 			else sum += v[idx].count(a);
 		} else {
 			int a = rand()%NUM, b = rand()%NUM;
-			int qt = rand()%(v[a].size()+1);
+			long long val = (rand()*(long long)rand())%MAX;
 			treap<long long> tmp;
-			v[a].split(qt, tmp);
+			v[a].split(val, tmp);
 			v[b].merge(tmp);
 		}
 	}

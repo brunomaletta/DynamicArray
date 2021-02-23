@@ -2,7 +2,7 @@
 #include <chrono>
 #include <vector>
 
-#include "../../src/sms.cpp"
+#include "../../src/bst/splay.cpp"
 
 std::chrono::time_point<std::chrono::high_resolution_clock> beg;
 
@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 
 	int sum = 0;
 
-	std::vector<sms<long long>> v(NUM, sms<long long>(MAX));
+	std::vector<splaytree<long long>> v(NUM);
 
 	reset_time();
 
@@ -42,16 +42,16 @@ int main(int argc, char** argv) {
 			else sum += v[idx].count(a);
 		} else {
 			int a = rand()%NUM, b = rand()%NUM;
-			int qt = rand()%(v[a].size()+1);
-			sms<long long> tmp;
-			v[a].split(qt, tmp);
+			long long val = (rand()*(long long)rand())%MAX;
+			splaytree<long long> tmp;
+			v[a].split(val, tmp);
 			v[b].merge(tmp);
 		}
 	}
 
 	double time = get_time();
 
-	std::cout << "sms" << std::endl;
+	std::cout << "splay" << std::endl;
 	std::cout << sum << std::endl;
 	std::cout << int(1000*time) << std::endl;
 
