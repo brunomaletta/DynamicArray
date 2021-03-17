@@ -11,12 +11,12 @@ int main() {
 	std::cout << std::endl;
 
 	sms_mo<int> s_mo = {1, 3, 5, 8};
-	for (int i = 0; i < s.size(); i++)
+	for (int i = 0; i < s_mo.size(); i++)
 		std::cout << s_mo[i] << " ";
 	std::cout << std::endl;
 
 	dyn_array<int> v = {1, 3, 5, 8};
-	for (int i = 0; i < s.size(); i++)
+	for (int i = 0; i < v.size(); i++)
 		std::cout << v[i] << " ";
 	std::cout << std::endl;
 

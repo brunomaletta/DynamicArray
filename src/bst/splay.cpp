@@ -2,8 +2,6 @@
 
 #include <vector>
 
-#include <iostream>
-
 template<typename T> struct splaytree {
 	struct node {
 		node *ch[2], *p;
