@@ -86,7 +86,7 @@ a.push_back(2); // now a = {2}
 a.push_back(5, 3); // now a = {2, 3, 3, 3}
 ```
 
-**Complexity**: `O(log(n) + log(N))`
+**Complexity**: `O(log(n))`
 
 ### [] operator
 
@@ -165,7 +165,7 @@ dyn_array<int> a = {3, 1, 2}, b = {5, 6, 2};
 a.concat(b); // a = {3, 1, 2, 5, 6, 2} and b = {}
 ```
 
-**Complexity**: `O(log(n) + log(N))`
+**Complexity**: `O(log(n))`
 
 ### reverse
 
@@ -222,7 +222,7 @@ dyn_array<int> a = {3, 1, 2, 5, 6, 2};
 a.sort(); // a = {1, 2, 2, 3, 5, 6}
 ```
 
-**Complexity**: `O(log(n) + log(N))` **amortized**
+**Complexity**: `O(log(N))` **amortized**
 
 ### rmq
 
