@@ -17,7 +17,7 @@ dyn_array<int> a;
 It is also possible to initialize a Dynamic Array with `std::initializer_list`
 
 ```c++
-template<typename T, typename SIZE_T = int> struct dyn_array;
+template<typename T, typename SIZE_T = int, typename SET = sms_mo<T, true, SIZE_T>> struct dyn_array;
 
 // Example:
 dyn_array<int> a = {3, 1, 2};
