@@ -17,7 +17,8 @@ dyn_array<int> a;
 It is also possible to initialize a Dynamic Array with `std::initializer_list`
 
 ```c++
-template<typename T, typename SIZE_T = int, typename SET = sms_mo<T, true, SIZE_T>> struct dyn_array;
+template<typename T, typename SIZE_T = int, typename SET = sms_mo<T, true, SIZE_T>>
+struct dyn_array;
 
 // Example:
 dyn_array<int> a = {3, 1, 2};
@@ -210,7 +211,7 @@ a.sort(0, 3); // a = {1, 2, 3, 5, 6, 2}
 a.sort(2, 5, true); // a = {1, 2, 6, 5, 3, 2}
 ```
 
-**Complexity**: `O(log(n) + log(N))` **amortized**
+**Complexity**: `O(log(n))` **amortized**
 
 If the range is not specified, the entire array gets sorted, in non-decreasing order. If the last parameter is passed as `true`, the array is sorted in non-increasing order.
 
@@ -222,7 +223,7 @@ dyn_array<int> a = {3, 1, 2, 5, 6, 2};
 a.sort(); // a = {1, 2, 2, 3, 5, 6}
 ```
 
-**Complexity**: `O(log(N))` **amortized**
+**Complexity**: `O(1)` **amortized**
 
 ### rmq
 
