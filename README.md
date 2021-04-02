@@ -84,7 +84,7 @@ void dyn_array::push_back(T, SIZE_T = 1);
 // Example:
 dyn_array<int> a;
 a.push_back(2); // now a = {2}
-a.push_back(5, 3); // now a = {2, 3, 3, 3}
+a.push_back(5, 3); // now a = {2, 5, 5, 5}
 ```
 
 **Complexity**: `O(log(n))`
