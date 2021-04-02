@@ -39,6 +39,17 @@ int main() {
 			int idx, x;
 			std::cin >> idx >> x;
 			v[idx] = x;
+		} else if (c == '/') {
+			int x;
+			std::cin >> x;
+			std::vector<int> tmp, w;
+			for (int i : v) {
+				if (i < x) tmp.push_back(i);
+				else w.push_back(i);
+			}
+			v = tmp;
+			std::sort(v.begin(), v.end());
+			for (int i : w) v.push_back(i);
 		}
 	}
 	return 0;

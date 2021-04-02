@@ -38,6 +38,14 @@ int main() {
 			int idx, x;
 			std::cin >> idx >> x;
 			v.update(idx, x);
+		} else if (c == '/') {
+			int x;
+			std::cin >> x;
+			dyn_array<int> tmp;
+			v.slice(x, tmp);
+			tmp.sort();
+			tmp.concat(v);
+			swap(v, tmp);
 		}
 	}
 	return 0;

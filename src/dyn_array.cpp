@@ -22,8 +22,8 @@ struct dyn_array {
 		bool rev, rev_lazy;
 		SET val;
 		T mi;
-		node(SET& v) : l(NULL), r(NULL),
-				p(dyn_array_rng()), sz(1), rev(0), rev_lazy(0) {
+		node(SET& v, bool rev_ = false) : l(NULL), r(NULL),
+				p(dyn_array_rng()), sz(v.size()), rev(rev_), rev_lazy(0) {
 			swap(val, v);
 			mi = val.min();
 		}
@@ -133,8 +133,7 @@ struct dyn_array {
 	void push_back(T val, SIZE_T qt = 1) {
 		SET v;
 		v.insert(val, qt);
-		node* i = new node(v);
-		join(root, i, root);
+		join(root, new node(v), root);
 	}
 
 	T get(node* i, SIZE_T idx) const {
@@ -202,5 +201,27 @@ struct dyn_array {
 		L.concat(*this);
 		swap(*this, L);
 		return ans;
+	}
+
+	void slice(node*& x, T val, dyn_array& v) {
+		if (!x or x->mi >= val) return;
+		x->prop();
+		slice(x->l, val, v);
+		if (x->val.min() < val) {
+			SET s;
+			x->val.split_val(val, s);
+			join(v.root, new node(s, x->rev), v.root);
+		}
+		slice(x->r, val, v);
+		if (x->val.size()) x->update();
+		else {
+			node* tmp = x;
+			join(x->l, x->r, x);
+			delete tmp;
+		}
+	}
+	void slice(T val, dyn_array& v) {
+		v.clear();
+		slice(root, val, v);
 	}
 };
