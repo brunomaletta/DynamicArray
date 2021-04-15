@@ -245,6 +245,20 @@ int mi = a.rmq(0, 3); // mi = 1
 
 Copying the array costs time linear in the size of the array.
 
+### to_vector
+
+It is possible to get a `std::vector<T>` that represents the array, in linear time.
+
+```c++
+std::vector<T> to_vector();
+
+// Example:
+dyn_array<int> a = {3, 1, 2};
+std::vector<int> vec = a.to_vector(); // vec = {3, 1, 2}
+```
+
+**Complexity**: `O(n)`
+
 ## Memory Consumption
 
 At any point, a Dynamic Array of size `n` uses `O(n)` memory.

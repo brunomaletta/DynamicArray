@@ -87,6 +87,17 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms_mo {
 		swap(*this, tmp);
 	}
 	void expand(T v) { while (v>>n) n++, N = 2*N+1; }
+	std::vector<T> to_vector() {
+		std::vector<T> ret;
+		std::vector<node*> q = {root};
+		while (q.size()) {
+			node* x = q.back(); q.pop_back();
+			if (!x) continue;
+			if (x->d == -1) for (int i = 0; i < x->cnt; i++) ret.push_back(x->v);
+			else q.push_back(x->ch[1]), q.push_back(x->ch[0]);
+		}
+		return ret;
+	}
 
 	char msb(T v, char l, char r) { // msb in range (l, r]
 		for (char i = r; i > l; i--) if (v>>i&1) return i;

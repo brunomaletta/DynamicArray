@@ -90,6 +90,20 @@ struct dyn_array {
 	}
 	SIZE_T size(node* x) const { return x ? x->sz : 0; }
 	SIZE_T size() const { return size(root); }
+	void to_vector_rec(node* x, std::vector<T>& v) {
+		if (!x) return;
+		to_vector_rec(x->l, v);
+		std::vector<T> at = x->val.to_vector();
+		if (x->rev) v.insert(v.end(), at.rbegin(), at.rend());
+		else v.insert(v.end(), at.begin(), at.end());
+		to_vector_rec(x->r, v);
+	}
+	std::vector<T> to_vector() {
+		std::vector<T> ret;
+		to_vector_rec(root, ret);
+		return ret;
+	}
+
 	void join(node* l, node* r, node*& i) {
 		if (!l or !r) return void(i = l ? l : r);
 		l->prop(), r->prop();

@@ -79,6 +79,18 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 			root->update();
 		}
 	}
+	std::vector<T> to_vector() {
+		std::vector<T> ret;
+		std::vector<node*> q = {root};
+		while (q.size()) {
+			node* x = q.back(); q.pop_back();
+			if (!x) continue;
+			if (!x->l and !x->r)
+				for (int i = 0; i < x->cnt; i++) ret.push_back(x->mi);
+			else q.push_back(x->r), q.push_back(x->l);
+		}
+		return ret;
+	}
 
 	node* insert(node* at, T idx, SIZE_T qt, T l, T r) {
 		if (!at) at = new node();

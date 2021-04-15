@@ -6,18 +6,15 @@
 
 int main() {
 	sms<int> s = {1, 3, 5, 8};
-	for (int i = 0; i < s.size(); i++)
-		std::cout << s[i] << " ";
+	for (int i : s.to_vector()) std::cout << i << " ";
 	std::cout << std::endl;
 
 	sms_mo<int> s_mo = {1, 3, 5, 8};
-	for (int i = 0; i < s_mo.size(); i++)
-		std::cout << s_mo[i] << " ";
+	for (int i : s_mo.to_vector()) std::cout << i << " ";
 	std::cout << std::endl;
 
 	dyn_array<int> v = {1, 3, 5, 8};
-	for (int i = 0; i < v.size(); i++)
-		std::cout << v[i] << " ";
+	for (int i : v.to_vector()) std::cout << i << " ";
 	std::cout << std::endl;
 
 	return 0;
