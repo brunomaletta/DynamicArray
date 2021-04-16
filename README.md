@@ -250,7 +250,7 @@ Copying the array costs time linear in the size of the array.
 It is possible to get a `std::vector<T>` that represents the array, in linear time.
 
 ```c++
-std::vector<T> to_vector();
+std::vector<T> dyn_array::to_vector();
 
 // Example:
 dyn_array<int> a = {3, 1, 2};
