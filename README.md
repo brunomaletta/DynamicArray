@@ -263,7 +263,7 @@ int ma = a.rmq(0, 3, true); // ma = 5
 Partitions the array, removing from it the elements that are smaller than the given value. The partition is stable, that is, the relative order of the elements is maintained in both arrays.
 
 ```c++
-void dyn_array::partition(SIZE_T, dyn_array&);
+void dyn_array::partition(T, dyn_array&);
 
 // Example:
 dyn_array<int> a = {2, 5, 3, 6, 6, 1, 4}, b;
