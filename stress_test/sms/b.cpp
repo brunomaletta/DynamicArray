@@ -23,7 +23,7 @@ int main() {
 			else std::cout << 0 << std::endl;
 		} else if (c == '$') {
 			if (!s.size()) std::cout << -1 << std::endl;
-			else std::cout << *s.begin() << std::endl;
+			else std::cout << *s.begin() << " " << *s.rbegin() << std::endl;
 		}
 	}
 	return 0;

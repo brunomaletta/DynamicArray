@@ -34,7 +34,8 @@ int main() {
 		} else if (c == '$') {
 			int l, r;
 			std::cin >> l >> r;
-			std::cout << *std::min_element(v.begin()+l, v.begin()+r+1) << std::endl;
+			std::cout << *std::min_element(v.begin()+l, v.begin()+r+1)
+			   << " " << *std::max_element(v.begin()+l, v.begin()+r+1) << std::endl;
 		} else if (c == '=') {
 			int idx, x;
 			std::cin >> idx >> x;
@@ -42,14 +43,7 @@ int main() {
 		} else if (c == '/') {
 			int x;
 			std::cin >> x;
-			std::vector<int> tmp, w;
-			for (int i : v) {
-				if (i < x) tmp.push_back(i);
-				else w.push_back(i);
-			}
-			v = tmp;
-			std::sort(v.begin(), v.end());
-			for (int i : w) v.push_back(i);
+			std::stable_partition(v.begin(), v.end(), [&](int k) { return k < x; });
 		}
 	}
 	return 0;

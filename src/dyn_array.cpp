@@ -21,14 +21,14 @@ struct dyn_array {
 		SIZE_T sz;
 		bool rev, rev_lazy;
 		SET val;
-		T mi;
+		T mi, ma;
 		node(SET& v, bool rev_ = false) : l(NULL), r(NULL),
 				p(dyn_array_rng()), sz(v.size()), rev(rev_), rev_lazy(0) {
 			swap(val, v);
-			mi = val.min();
+			mi = val.min(), ma = val.max();
 		}
 		node(node* x) : l(NULL), r(NULL), p(x->p), sz(x->sz),
-			rev(x->rev), rev_lazy(x->rev_lazy), val(x->val), mi(x->mi) {}
+			rev(x->rev), rev_lazy(x->rev_lazy), val(x->val), mi(x->mi), ma(x->ma) {}
 		void prop() {
 			if (rev_lazy) {
 				rev ^= 1;
@@ -40,9 +40,9 @@ struct dyn_array {
 		}
 		void update() {
 			sz = val.size();
-			mi = val.min();
-			if (l) sz += l->sz, mi = std::min(mi, l->mi);
-			if (r) sz += r->sz, mi = std::min(mi, r->mi);
+			mi = val.min(), ma = val.max();
+			if (l) sz += l->sz, mi = std::min(mi, l->mi), ma = std::max(ma, l->ma);
+			if (r) sz += r->sz, mi = std::min(mi, r->mi), ma = std::max(ma, r->ma);
 		}
 	};
 
@@ -206,27 +206,33 @@ struct dyn_array {
 		swap(*this, L);
 	}
 	T min() { return root->mi; }
-	T rmq(SIZE_T l, SIZE_T r) {
+	T max() { return root->ma; }
+	T rmq(SIZE_T l, SIZE_T r, bool get_max = false) {
 		dyn_array L, M;
 		split(r+1, M);
 		M.split(l, L);
-		T ans = M.min();
+		T ans = get_max ? M.max() : M.min();
 		L.concat(M);
 		L.concat(*this);
 		swap(*this, L);
 		return ans;
 	}
 
-	void slice(node*& x, T val, dyn_array& v) {
+	void partition(node*& x, T val, dyn_array& v) {
 		if (!x or x->mi >= val) return;
+		if (x->ma < val) {
+			join(v.root, x, v.root);
+			x = NULL;
+			return;
+		}
 		x->prop();
-		slice(x->l, val, v);
+		partition(x->l, val, v);
 		if (x->val.min() < val) {
 			SET s;
 			x->val.split_val(val, s);
 			join(v.root, new node(s, x->rev), v.root);
 		}
-		slice(x->r, val, v);
+		partition(x->r, val, v);
 		if (x->val.size()) x->update();
 		else {
 			node* tmp = x;
@@ -234,8 +240,8 @@ struct dyn_array {
 			delete tmp;
 		}
 	}
-	void slice(T val, dyn_array& v) {
+	void partition(T val, dyn_array& v) {
 		v.clear();
-		slice(root, val, v);
+		partition(root, val, v);
 	}
 };

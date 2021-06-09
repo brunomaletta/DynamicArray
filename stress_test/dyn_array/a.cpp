@@ -33,7 +33,7 @@ int main() {
 		} else if (c == '$') {
 			int l, r;
 			std::cin >> l >> r;
-			std::cout << v.rmq(l, r) << std::endl;
+			std::cout << v.rmq(l, r) << " " << v.rmq(l, r, true) << std::endl;
 		} else if (c == '=') {
 			int idx, x;
 			std::cin >> idx >> x;
@@ -42,8 +42,7 @@ int main() {
 			int x;
 			std::cin >> x;
 			dyn_array<int> tmp;
-			v.slice(x, tmp);
-			tmp.sort();
+			v.partition(x, tmp);
 			tmp.concat(v);
 			swap(v, tmp);
 		}

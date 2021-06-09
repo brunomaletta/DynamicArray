@@ -24,7 +24,7 @@ int main() {
 			else std::cout << 0 << std::endl;
 		} else if (c == '$') {
 			if (!s.size()) std::cout << -1 << std::endl;
-			else std::cout << s.min() << std::endl;
+			else std::cout << s.min() << " " << s.max() << std::endl;
 		}
 	}
 	return 0;

@@ -14,12 +14,12 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms_mo {
 		node* ch[2];
 		SIZE_T cnt;
 		char d;
-		T v, mi;
-		node(int d_, T v_, SIZE_T cnt_) : cnt(cnt_), d(d_), v(v_), mi(v) {
+		T v, mi, ma;
+		node(int d_, T v_, SIZE_T cnt_) : cnt(cnt_), d(d_), v(v_), mi(v), ma(v) {
 			ch[0] = ch[1] = NULL;
 		}
 		node(node* x, bool b=true) :
-				cnt(x->cnt), d(x->d), v(x->v), mi(x->mi) {
+				cnt(x->cnt), d(x->d), v(x->v), mi(x->mi), ma(x->ma) {
 			if (b) ch[0] = x->ch[0], ch[1] = x->ch[1];
 			else ch[0] = ch[1] = NULL;
 		}
@@ -29,16 +29,16 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms_mo {
 					node* tmp = ch[i];
 					ch[0] = tmp->ch[0], ch[1] = tmp->ch[1];
 					d = tmp->d, v = tmp->v;
-					cnt = tmp->cnt, mi = tmp->mi;
+					cnt = tmp->cnt, mi = tmp->mi, ma = tmp->ma;
 					delete tmp;
 					return;
 				}
 			}
 			cnt = 0;
-			mi = std::numeric_limits<T>::max();
+			mi = std::numeric_limits<T>::max(), ma = std::numeric_limits<T>::min();
 			for (int i = 0; i < 2; i++) if (ch[i]) {
 				cnt += ch[i]->cnt;
-				mi = std::min(mi, ch[i]->mi);
+				mi = std::min(mi, ch[i]->mi), ma = std::max(ma, ch[i]->ma);
 			}
 		}
 	};
@@ -120,7 +120,7 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms_mo {
 		cut(at, v, i);
 		if (at->d == -1) { // leaf
 			at->cnt += qt;
-			at->mi = v;
+			at->mi = at->ma = v;
 			if (!MULTI) at->cnt = 1;
 			return at;
 		}
@@ -220,7 +220,7 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms_mo {
 		ret->ch[0] = ret->ch[1] = NULL;
 		ret->cnt = 0;
 
-		if (x->d == -1) x->cnt -= k, ret->cnt += k, ret->mi = x->mi;
+		if (x->d == -1) x->cnt -= k, ret->cnt += k, ret->mi = x->mi, ret->ma = x->ma;
 		else {
 			if (k <= count(x->ch[0])) ret->ch[0] = split(x->ch[0], k);
 			else {
@@ -241,4 +241,6 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms_mo {
 	void split_val(T k, sms_mo& s) { split(order_of_key(k), s); }
 	// get minimum
 	T min() { return root->mi; };
+	// get maximum
+	T max() { return root->ma; };
 };

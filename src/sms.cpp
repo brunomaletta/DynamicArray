@@ -13,15 +13,15 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 	struct node {
 		node *l, *r;
 		SIZE_T cnt;
-		T mi;
+		T mi, ma;
 		node() : l(NULL), r(NULL), cnt(0),
-				mi(std::numeric_limits<T>::max()) {}
-		node(node* x) : l(NULL), r(NULL), cnt(x->cnt), mi(x->mi) {}
+				mi(std::numeric_limits<T>::max()), ma(std::numeric_limits<T>::min()) {}
+		node(node* x) : l(NULL), r(NULL), cnt(x->cnt), mi(x->mi), ma(x->ma) {}
 		void update() {
 			cnt = 0;
-			mi = std::numeric_limits<T>::max();
-			if (l) cnt += l->cnt, mi = std::min(mi, l->mi);
-			if (r) cnt += r->cnt, mi = std::min(mi, r->mi);
+			mi = std::numeric_limits<T>::max(), ma = std::numeric_limits<T>::min();
+			if (l) cnt += l->cnt, mi = std::min(mi, l->mi), ma = std::max(ma, l->ma);
+			if (r) cnt += r->cnt, mi = std::min(mi, r->mi), ma = std::max(ma, r->ma);
 		}
 	};
 
@@ -96,7 +96,7 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 		if (!at) at = new node();
 		if (l == r) {
 			at->cnt += qt;
-			at->mi = l;
+			at->mi = at->ma = l;
 			if (!MULTI) at->cnt = 1;
 			return at;
 		}
@@ -178,7 +178,7 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 	node* split(node*& x, SIZE_T k) {
 		if (k <= 0 or !x) return NULL;
 		node* ret = new node();
-		if (!x->l and !x->r) x->cnt -= k, ret->cnt += k, ret->mi = x->mi;
+		if (!x->l and !x->r) x->cnt -= k, ret->cnt += k, ret->mi = x->mi, ret->ma = x->ma;
 		else {
 			if (k <= count(x->l)) ret->l = split(x->l, k);
 			else {
@@ -199,4 +199,6 @@ template<typename T, bool MULTI=false, typename SIZE_T=int> struct sms {
 	void split_val(T k, sms& s) { split(order_of_key(k), s); }
 	// get minimum
 	T min() { return root->mi; };
+	// get maximum
+	T max() { return root->ma; };
 };

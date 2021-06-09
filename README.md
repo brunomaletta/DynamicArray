@@ -138,6 +138,22 @@ int mi = a.min(); // mi = 1
 
 **Complexity**: `O(1)`
 
+### max
+
+Returns the maximum value of the array.
+
+**If the array is empty, the behaviour is undefined.**
+
+```c++
+T dyn_array::max();
+
+// Example:
+dyn_array<int> a = {3, 1, 2};
+int ma = a.max(); // ma = 3
+```
+
+**Complexity**: `O(1)`
+
 ## Range operations
 
 ### split
@@ -227,19 +243,34 @@ a.sort(); // a = {1, 2, 2, 3, 5, 6}
 
 ### rmq
 
-Returns the minimum over the values of the given sub-array.
+Returns the minimum/maximum over the values of the given sub-array. Returns minimum by default, and maximum if the third parameter is set to true.
 
 **If the first index is greater than the second index, the behaviour is undefined.**
 
 ```c++
-T dyn_array::rmq(SIZE_T, SIZE_T);
+T dyn_array::rmq(SIZE_T, SIZE_T, bool = false);
 
 // Example:
 dyn_array<int> a = {3, 1, 2, 5, 6, 2};
-int mi = a.rmq(0, 3); // mi = 1
+int mi = a.rmq(0, 3);       // mi = 1
+int ma = a.rmq(0, 3, true); // ma = 5
 ```
 
 **Complexity**: `O(log(n) + log(N))`
+
+### partition
+
+Partitions the array, removing from it the elements that are smaller than the given value. The partition is stable, that is, the relative order of the elements is maintained in both arrays.
+
+```c++
+void dyn_array::partition(SIZE_T, dyn_array&);
+
+// Example:
+dyn_array<int> a = {2, 5, 3, 6, 6, 1, 4}, b;
+a.partition(4, b); // b = {2, 3, 1} and a = {5, 6, 6, 4}
+```
+
+**Complexity**: `O(n)`, maybe amortized sub-linear?
 
 ## Copying
 

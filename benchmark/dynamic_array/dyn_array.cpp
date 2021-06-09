@@ -47,8 +47,7 @@ int main(int argc, char** argv) {
 		else if (op == 4) {
 			int x2 = rand()%NUM;
 			dyn_array<int> tmp;
-			v[x].slice(rand()%(n+1), tmp);
-			tmp.sort();
+			v[x].partition(rand()%(n+1), tmp);
 			v[x2].concat(tmp);
 		}
 	}
