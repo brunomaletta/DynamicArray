@@ -218,30 +218,44 @@ struct dyn_array {
 		return ans;
 	}
 
-	void partition(node*& x, T val, dyn_array& v) {
-		if (!x or x->mi >= val) return;
-		if (x->ma < val) {
-			join(v.root, x, v.root);
-			x = NULL;
-			return;
-		}
+	SIZE_T first_smaller(node* x, T val) {
+		if (!x or x->mi >= val) return size(x);
 		x->prop();
-		partition(x->l, val, v);
+
+		SIZE_T left = first_smaller(x->l, val);
+		if (left < size(x->l)) return left;
 		if (x->val.min() < val) {
-			SET s;
-			x->val.split_val(val, s);
-			join(v.root, new node(s, x->rev), v.root);
+			if (!x->rev) return left;
+			return left + x->val.size() - x->val.lower_bound(val);
 		}
-		partition(x->r, val, v);
-		if (x->val.size()) x->update();
-		else {
-			node* tmp = x;
-			join(x->l, x->r, x);
-			delete tmp;
-		}
+		return left + x->val.size() + first_smaller(x->r, val);
 	}
+	SIZE_T first_smaller(T val) { return first_smaller(root, val); }
+	SIZE_T first_not_smaller(node* x, T val) {
+		if (!x or x->ma < val) return size(x);
+		x->prop();
+
+		SIZE_T left = first_not_smaller(x->l, val);
+		if (left < size(x->l)) return left;
+		if (x->val.max() >= val) {
+			if (x->rev) return left;
+			return left + x->val.lower_bound(val);
+		}
+		return left + x->val.size() + first_not_smaller(x->r, val);
+	}
+	SIZE_T first_not_smaller(T val) { return first_not_smaller(root, val); }
+
 	void partition(T val, dyn_array& v) {
 		v.clear();
-		partition(root, val, v);
+		dyn_array big;
+
+		while (size()) {
+			dyn_array tmp;
+			split(first_not_smaller(val), tmp);
+			v.concat(tmp);
+			split(first_smaller(val), tmp);
+			big.concat(tmp);
+		}
+		swap(*this, big);
 	}
 };

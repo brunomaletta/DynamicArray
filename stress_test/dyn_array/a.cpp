@@ -38,6 +38,14 @@ int main() {
 			int idx, x;
 			std::cin >> idx >> x;
 			v.update(idx, x);
+		} else if (c == 'p') {
+			int x;
+			std::cin >> x;
+			std::cout << v.first_smaller(x) << std::endl;
+		} else if (c == 'P') {
+			int x;
+			std::cin >> x;
+			std::cout << v.first_not_smaller(x) << std::endl;
 		} else if (c == '/') {
 			int x;
 			std::cin >> x;

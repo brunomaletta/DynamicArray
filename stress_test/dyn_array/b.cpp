@@ -40,6 +40,18 @@ int main() {
 			int idx, x;
 			std::cin >> idx >> x;
 			v[idx] = x;
+		} else if (c == 'p') {
+			int x;
+			std::cin >> x;
+			int qt = 0;
+			while (qt < v.size() and v[qt] >= x) qt++;
+			std::cout << qt << std::endl;
+		} else if (c == 'P') {
+			int x;
+			std::cin >> x;
+			int qt = 0;
+			while (qt < v.size() and v[qt] < x) qt++;
+			std::cout << qt << std::endl;
 		} else if (c == '/') {
 			int x;
 			std::cin >> x;

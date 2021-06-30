@@ -9,7 +9,7 @@ int main(int argc, char** argv) {
 	for (int i = 0; i < n; i++) std::cout << rand()%LIM << " ";
 	std::cout << std::endl;
 	while (q--) {
-		int t = rand()%7;
+		int t = rand()%9;
 		if (t == 0) {
 			std::cout << "? " << rand()%n << std::endl;
 			continue;
@@ -24,6 +24,14 @@ int main(int argc, char** argv) {
 			continue;
 		}
 		if (t == 6) {
+			std::cout << "p " << rand()%LIM << std::endl;
+			continue;
+		}
+		if (t == 7) {
+			std::cout << "P " << rand()%LIM << std::endl;
+			continue;
+		}
+		if (t == 8) {
 			std::cout << "/ " << rand()%LIM << std::endl;
 			continue;
 		}
