@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <utility>
 
 int main() {
 	int n, q;
@@ -56,6 +57,15 @@ int main() {
 			int x;
 			std::cin >> x;
 			std::stable_partition(v.begin(), v.end(), [&](int k) { return k < x; });
+		} else if (c == '|') {
+			int x;
+			std::cin >> x;
+			std::vector<std::pair<int, int>> w;
+			for (int i = 0; i < n; i++) w.emplace_back(v[i], i);
+			std::partial_sort(w.begin(), w.begin()+x, w.end());
+			std::sort(w.begin(), w.begin()+x, [](auto a, auto b) { return a.second < b.second; });
+			std::sort(w.begin()+x, w.end(),   [](auto a, auto b) { return a.second < b.second; });
+			for (int i = 0; i < n; i++) v[i] = w[i].first;
 		}
 	}
 	return 0;

@@ -53,6 +53,13 @@ int main() {
 			v.partition(x, tmp);
 			tmp.concat(v);
 			swap(v, tmp);
+		} else if (c == '|') {
+			int x;
+			std::cin >> x;
+			dyn_array<int> tmp;
+			v.partition_k(x, tmp);
+			tmp.concat(v);
+			swap(v, tmp);
 		}
 	}
 	return 0;

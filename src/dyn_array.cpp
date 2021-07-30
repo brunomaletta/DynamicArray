@@ -245,17 +245,55 @@ struct dyn_array {
 	}
 	SIZE_T first_not_smaller(T val) { return first_not_smaller(root, val); }
 
-	void partition(T val, dyn_array& v) {
+	void partition(T val, dyn_array& v, SIZE_T equal = 0) {
 		v.clear();
 		dyn_array big;
-
 		while (size()) {
 			dyn_array tmp;
 			split(first_not_smaller(val), tmp);
 			v.concat(tmp);
-			split(first_smaller(val), tmp);
-			big.concat(tmp);
+			if (equal) {
+				split(first_smaller(val+1), tmp);
+				big.concat(tmp);
+				SIZE_T qt = std::min(equal, first_not_smaller(val+1));
+				qt = std::min(qt, first_smaller(val));
+				equal -= qt;
+				split(qt, tmp);
+				v.concat(tmp);
+			} else {
+				split(first_smaller(val), tmp);
+				big.concat(tmp);
+			}
 		}
 		swap(*this, big);
+	}
+
+	void partition_k(SIZE_T k, dyn_array& v) {
+		v.clear();
+		if (std::min(k, size()) <= 0) return;
+		T l = 0, r = max()+1;
+		SIZE_T last = 0;
+		while (l < r) {
+			T m = l + (r-l+1)/2;
+			std::vector<dyn_array> small, big;
+			SIZE_T small_sz = 0;
+			while (size() and small_sz <= k) {
+				small.emplace_back(), big.emplace_back();
+				split(first_not_smaller(m), small.back());
+				split(first_smaller(m), big.back());
+				small_sz += small.back().size();
+			}
+			if (small_sz <= k) l = m, last = small_sz;
+			else r = m-1;
+
+			while (small.size()) {
+				big.back().concat(*this);
+				swap(*this, big.back());
+				small.back().concat(*this);
+				swap(*this, small.back());
+				big.pop_back(), small.pop_back();
+			}
+		}
+		partition(l, v, k - last);
 	}
 };
