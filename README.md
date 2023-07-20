@@ -270,7 +270,7 @@ dyn_array<int> a = {2, 5, 3, 6, 6, 1, 4}, b;
 a.partition(4, b); // b = {2, 3, 1} and a = {5, 6, 6, 4}
 ```
 
-**Complexity**: `O(n log(N))`, maybe amortized sub-linear?
+**Complexity**: `O(sqrt(n) log(N))`  **amortized**, maybe amortized polylog?
 
 ## Copying
 
